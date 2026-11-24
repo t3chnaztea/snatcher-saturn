@@ -64,6 +64,8 @@ For the physical gun test, connect the pad to port 1 and the Stunner to port 2 b
 
 ## Test coverage and known issues
 
+Desktop Chrome produced verified BIN and CUE downloads from the public patcher for all eight restoration combinations. Tests included combined and split dumps, with both stored and omitted audio pregaps.
+
 The 4:36:42 playthrough started with empty backup RAM and used zero emulator state loads across 993,212 frames. All 23 story checkpoints matched the earlier development route. All 14 additional whole-screen checks matched the current build. The final Junker logo matched the independently recorded ending.
 
 Beetle passed 50 pad and Stunner cases across 11 shooting encounters on the staged image. The emulated Stunner scored 64 hits in the first Act 3 corridor and 40 in the second. Off-screen shots missed. Holding the trigger fired once.
