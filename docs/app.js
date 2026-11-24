@@ -11,6 +11,8 @@ function clearResult() {
 function choose(list) {
   clearResult();
   files = Array.from(list);
+  // Choosing a repaired dump with the same filenames must refresh its File objects.
+  $('files').value = '';
   const cue = files.find(file => /\.cue$/i.test(file.name));
   $('selection').textContent = files.length ? [cue?.name, files.length + ' files selected'].filter(Boolean).join(' · ') :
     'US retail T-95035 · One combined BIN or 21 split tracks';
