@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self'; img-src 'self'; connect-src 'self'; worker-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>Snatcher Saturn Patcher</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body><main>
+  <img class="banner" src="neo-kobe.png" alt="Snatcher for Sega Saturn, Neo Kobe at night">
+  <header><h1>Saturn disc patcher</h1>
+    <p>Turn your US Sega CD copy of <i>Snatcher</i> into a Saturn BIN/CUE. Your disc files stay in your browser.</p>
+  </header>
+  <form id="patcher">
+    <fieldset><legend>Source disc</legend>
+      <label class="picker" id="drop"><strong>Choose disc files</strong>
+        <span>or drop the CUE and its BIN files here</span>
+        <input id="files" type="file" multiple accept=".cue,.bin" aria-label="Choose US Sega CD CUE and BIN files">
+      </label>
+      <p class="hint" id="selection" aria-live="polite">US retail T-95035 · One combined BIN or 21 split tracks</p>
+    </fieldset>
+    <fieldset><legend>Optional restorations</legend>
+      <p class="intro">Leave all three off to keep the US retail edition.</p>
+      <label class="choice"><input id="bar" type="checkbox"><span><strong>Outer Heaven costumes</strong><small>Restore the PC Engine costumes in the club’s wide shot.</small></span></label>
+      <label class="choice"><input id="lisa" type="checkbox"><span><strong>Lisa’s apartment artwork</strong><small>Restore the Room 202 illustration after the fight.</small></span></label>
+      <label class="choice"><input id="dates" type="checkbox"><span><strong>Database dates</strong><small>Use the Uncut chronology in the in-game database.</small></span></label>
+    </fieldset>
+    <div class="actions"><button id="create" type="submit">Create Saturn disc</button><button type="button" class="secondary" id="cancel" hidden>Cancel</button></div>
+  </form>
+  <section id="progressBox" hidden><p role="status" id="status"></p><progress id="progress" max="100" value="0"></progress></section>
+  <section id="downloads" hidden><h2>Your Saturn disc</h2>
+    <p>Download both files into the same folder. Open the CUE in Beetle Saturn or copy the pair into <code>SAROO/ISO/Snatcher Saturn</code>.</p>
+    <div class="actions"><a id="bin" class="button" download="snatcher-saturn.bin">Download BIN</a><a id="cue" class="button secondary" download="snatcher-saturn.cue">Download CUE</a></div>
+    <details><summary>Verified SHA-256 checksums</summary><pre id="hashes"></pre></details>
+  </section>
+  <footer><a href="https://github.com/t3chnaztea/snatcher-saturn#controls-and-beetle-saturn-setup">Player guide</a> · <a href="https://github.com/t3chnaztea/snatcher-saturn">Source on GitHub</a></footer>
+</main></body></html>

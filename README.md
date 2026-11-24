@@ -10,6 +10,8 @@ Konami released *Snatcher* for the Saturn in Japan in 1996. That edition paired 
 
 This port is for people who want to play the *Sega CD* edition on a Saturn. When Gillian walks into JUNKER headquarters, you hear Mika greet him in English. You get the Sega CD artwork and soundtrack, and the extra conversations from its expanded third act. The port reads those performances, pictures and songs from your US Sega CD disc and plays them as a native Saturn game.
 
+[**Patch your US Sega CD disc in your browser →**](https://t3chnaztea.github.io/snatcher-saturn/)
+
 **All three acts completed in Beetle Saturn. Physical Saturn, SAROO and CRT Stunner tests are pending.**
 
 <p align="center">
@@ -18,33 +20,27 @@ This port is for people who want to play the *Sega CD* edition on a Saturn. When
 
 *Beetle Saturn capture.* Mika at JUNKER headquarters, a parking lot investigation and the first factory shootout. [Watch the 20-second clip with sound](media/gameplay.mp4).
 
-## Choose Uncut options
+## Patch your disc
 
-Start with the US retail game, or choose any combination of three restorations from [Snatcher Uncut](https://github.com/t3chnaztea/snatcher-uncut-segacd). In Outer Heaven, look at the patrons on either side of the stage. The switch changes their costumes in the wide shot. Their close-up portraits keep the US artwork.
+[**Open the Snatcher Saturn Patcher**](https://t3chnaztea.github.io/snatcher-saturn/) in desktop Chrome. Your disc files stay on your computer.
+
+1. Choose the CUE and all its BIN files from your original US Sega CD copy of *Snatcher* (T-95035). Both a combined BIN and 21 split tracks are supported.
+2. Leave the boxes unchecked for US retail, or pick any of the restorations below. Select **Create Saturn disc**.
+3. Download **both** `snatcher-saturn.bin` and `snatcher-saturn.cue` into the same folder. Open the CUE in Beetle Saturn or copy the pair to your SAROO card.
+
+The patcher verifies the data track, all 20 audio tracks and both output files. A split dump with missing pregaps gets silent padding to preserve retail track timing. The one non-silent retail pregap sector requires a dump with stored pregaps.
+
+### Optional Uncut restorations
+
+| Patcher choice | What changes |
+| --- | --- |
+| Outer Heaven costumes | Restores the PC Engine costumes in the club’s wide shot. The close-up portraits keep their US artwork. |
+| Lisa’s apartment artwork | Restores the Room 202 illustration after the fight. |
+| Database dates | Changes the in-game database dates to the Uncut chronology. |
 
 ![The Outer Heaven stage with US retail patrons on the left and restored costumes on the right](media/outer-heaven.png)
 
-Add the switches you want before the source CUE in the build command below.
-
-| Switch | Change |
-| --- | --- |
-| `--database-dates` | Changes the dates in the in-game database to the Uncut chronology. |
-| `--bar-background` | Restores the PC Engine costumes in the Outer Heaven wide shot. |
-| `--lisa-art` | Restores Lisa’s Room 202 artwork after the fight. |
-
-The artwork switches require `xdelta3` and the Uncut v0.11.0-rc1 component package. The default registry is `../snatcher-uncut/build/m9/release-v1/profiles.json`. Use `--uncut-registry "/path/to/profiles.json"` to select another copy.
-
-## Build the disc
-
-Use a US retail Snatcher disc image (T-95035). Supply a CUE with one combined BIN or a CUE with 21 split tracks. The patcher checks Track 1 against SHA-1 `1f4164205ed736a0d9a03eb7972868e9aa737d35` and verifies all 20 audio tracks. A raw Track 1 BIN produces a data-only build that omits the music tracks. For a byte-identical audio transfer, use a dump with stored pregaps (INDEX 00). If split files omit those sectors, the patcher inserts silence to keep retail track timing. Track 2 has one retail pregap sector with nonzero samples.
-
-This build uses the adjacent `snatcher-uncut` and `sonic-cd-saturn` projects on the development Mac. It requires Python 3, Uncut’s installed Python environment and US Sega CD BIOS, the local Genesis Plus GX core, Sonic’s installed Yaul toolchain and its generated CD and sound driver files. The host build also uses a C compiler, GNU Make (`gmake`), `xorrisofs`, libpng, liblz4 and pkg-config. Run this command from the port directory. Choose an output directory that does not exist.
-
-```sh
-python3 tools/patcher.py "/path/to/Snatcher.cue" "./Saturn build"
-```
-
-The output contains `snatcher-saturn.bin`, `snatcher-saturn.cue` and `build-receipt.json`. Keep the BIN and CUE together. The receipt records your patch choices and output hashes.
+These choices come from [Snatcher Uncut](https://github.com/t3chnaztea/snatcher-uncut-segacd).
 
 ## Controls and Beetle Saturn setup
 
@@ -54,7 +50,7 @@ For a light gun, keep the pad on port 1. Set port 2 to **Stunner**. Bind aim and
 
 ## Play on SAROO
 
-On a working SAROO card, create `SAROO/ISO/Snatcher Saturn`. Copy both generated disc files there under their original names. Run the following command in that directory. Compare both hashes with the receipt before ejecting the card.
+On a working SAROO card, create `SAROO/ISO/Snatcher Saturn`. Copy both generated disc files there under their original names. Run the following command in that directory. Compare both hashes with the patcher’s verified checksums before ejecting the card.
 
 ```sh
 shasum -a 256 snatcher-saturn.bin snatcher-saturn.cue
@@ -87,3 +83,18 @@ A clean build from the combined US BIN reproduced the tested BIN and CUE. The re
 A clean build with all three switches changed six of 912 Saturn disc files. Both restored pictures matched their expected hashes. Only two of 39 script text pools changed. All 20 audio tracks matched retail.
 
 Each switch also passed in a separate build. The date switch changed only two script modules. The bar switch changed the Outer Heaven artwork, its lighting map and the executable. The Lisa switch changed the apartment artwork and its transfer data. Each preserved all 20 playable audio tracks.
+
+<details>
+<summary>Developer build from source</summary>
+
+This build uses the adjacent `snatcher-uncut` and `sonic-cd-saturn` projects on the development Mac. It requires Python 3, Uncut’s installed Python environment and US Sega CD BIOS, the local Genesis Plus GX core, Sonic’s installed Yaul toolchain and its generated CD and sound driver files. The host build also uses a C compiler, GNU Make (`gmake`), `xorrisofs`, libpng, liblz4 and pkg-config. Run this command from the port directory. Choose an output directory that does not exist.
+
+```sh
+python3 tools/patcher.py "/path/to/Snatcher.cue" "./Saturn build"
+```
+
+The output contains `snatcher-saturn.bin`, `snatcher-saturn.cue` and `build-receipt.json`. Keep the BIN and CUE together. The receipt records your patch choices and output hashes.
+
+For restorations, add `--bar-background`, `--lisa-art` or `--database-dates` before the source CUE. The artwork switches require `xdelta3` and the Uncut v0.11.0-rc1 component package. The default registry is `../snatcher-uncut/build/m9/release-v1/profiles.json`. Use `--uncut-registry "/path/to/profiles.json"` to select another copy.
+
+</details>
