@@ -5,16 +5,66 @@ async function hash(data, algorithm = 'SHA-256') {
   const digest = new Uint8Array(await crypto.subtle.digest(algorithm, data));
   return Array.from(digest, n => n.toString(16).padStart(2, '0')).join('');
 }
-async function fetchOk(url) {
-  const response = await fetch(url);
-  if (!response.ok) throw Error('Could not load ' + url + '. Check your connection and try again.');
-  return response;
+async function loadAsset(url, info, progress = 1) {
+  for (let attempt = 1; attempt <= 3; attempt++) {
+    const controller = new AbortController();
+    let timer, permanent = false;
+    function resetDeadline() {
+      clearTimeout(timer);
+      timer = setTimeout(() => controller.abort(), 15000);
+    }
+    try {
+      resetDeadline();
+      const response = await fetch(url, {
+        signal: controller.signal,
+        cache: attempt > 1 ? 'reload' : info ? 'default' : 'no-cache'
+      });
+      if (!response.ok) {
+        permanent = response.status < 500 && ![408, 429].includes(response.status);
+        throw Error('HTTP ' + response.status);
+      }
+      const reader = response.body.getReader();
+      const chunks = [];
+      let size = 0, lastPercent = -1;
+      while (true) {
+        const {value, done} = await reader.read();
+        if (done) break;
+        resetDeadline();
+        chunks.push(value);
+        size += value.length;
+        if (info) {
+          if (size > info.bytes) throw Error('Unexpected patch size');
+          const percent = Math.floor(size * 100 / info.bytes);
+          if (percent !== lastPercent) {
+            status('Downloading patch… ' + percent + '%', progress + percent / 10);
+            lastPercent = percent;
+          }
+        }
+      }
+      clearTimeout(timer);
+      const blob = new Blob(chunks);
+      if (!info) return JSON.parse(await blob.text());
+      const bytes = await blob.arrayBuffer();
+      if (size !== info.bytes || await hash(bytes) !== info.sha256) throw Error('Patch checksum mismatch');
+      return bytes;
+    } catch (error) {
+      if (permanent || attempt === 3) {
+        const reason = controller.signal.aborted ? 'download stalled' : error.message;
+        throw Error('Could not load ' + url + ' (' + reason + '). Check your connection and try again.');
+      }
+      status('Retrying download (' + (attempt + 1) + ' of 3)…', progress);
+    } finally {
+      clearTimeout(timer);
+      controller.abort();
+    }
+    await new Promise(resolve => setTimeout(resolve, 500 * attempt));
+  }
 }
 
 async function applyPatch(source, name, release) {
-  const packed = await (await fetchOk('patches/' + name + '.vcd.gz')).arrayBuffer();
-  const info = release.patches[name];
-  if (packed.byteLength !== info.bytes || await hash(packed) !== info.sha256) throw Error('Patch download failed verification: ' + name);
+  const progress = name === 'retail' ? 35 : 52;
+  const packed = await loadAsset('patches/' + name + '.vcd.gz', release.patches[name], progress);
+  status('Applying verified patch…', progress + 10);
   const stream = new Blob([packed]).stream().pipeThrough(new DecompressionStream('gzip'));
   const patch = new BinFile(await new Response(stream).arrayBuffer());
   return VCDIFF.fromFile(patch).apply(new BinFile(source), false)._u8array;
@@ -22,7 +72,7 @@ async function applyPatch(source, name, release) {
 
 async function patchDisc(files, key) {
   if (!self.crypto?.subtle || !self.DecompressionStream) throw Error('Open the patcher in a current desktop browser over HTTPS.');
-  const release = await (await fetchOk('release.json')).json();
+  const release = await loadAsset('release.json');
   const variant = release.variants[key];
   if (!variant) throw Error('Unknown restoration choices.');
   const cues = files.filter(f => /\.cue$/i.test(f.name));
@@ -63,7 +113,7 @@ async function patchDisc(files, key) {
   }
   if (await hash(iso) !== variant.isoHash) throw Error('Patched ISO verification failed.');
   status('Encoding Saturn data sectors…', 64);
-  let encoded = encodeTrack(iso); iso = null;
+  let encoded = encodeTrack(iso, fraction => status('Encoding Saturn data sectors… ' + Math.floor(fraction * 100) + '%', 64 + 12 * fraction)); iso = null;
   if (await hash(encoded) !== variant.dataHash) throw Error('Saturn data track verification failed.');
   const bin = new Blob([encoded, ...audio], {type:'application/octet-stream'}); encoded = null;
   const cueText = cue.join('\n') + '\n';
