@@ -1,6 +1,34 @@
+<p align="center">
+  <img src="media/neo-kobe.png" width="100%" alt="Snatcher for Sega Saturn beside the Neo Kobe skyline at night">
+</p>
+
 # Snatcher for Sega Saturn
 
-This native Saturn port uses the English dialogue, voices, music and artwork from your US Sega CD disc. Beetle Saturn completed all three acts from New Game through the credits in 4 hours 36 minutes. Physical Saturn, SAROO and CRT Stunner tests are pending.
+Play the English Sega CD version of *Snatcher* as a native Saturn game, with the original voice cast, music and expanded third act. Build it from your US disc. Use a Saturn pad to investigate Neo Kobe and a pad or Stunner for the shooting encounters.
+
+**All three acts completed in Beetle Saturn. Physical Saturn, SAROO and CRT Stunner tests are pending.**
+
+<p align="center">
+  <a href="media/gameplay.mp4"><img src="media/gameplay.gif" width="512" alt="Mika greets Gillian, Gillian inspects his turbocycle, then fires at Insectors in the factory"></a>
+</p>
+
+*Beetle Saturn capture.* Mika at JUNKER headquarters, a parking lot investigation and the first factory shootout. [Watch the 20-second clip with sound](media/gameplay.mp4).
+
+## Choose Uncut options
+
+Start with the US retail game, or choose any combination of three restorations from [Snatcher Uncut](https://github.com/t3chnaztea/snatcher-uncut-segacd). In Outer Heaven, look at the patrons on either side of the stage. The switch changes their costumes in the wide shot. Their close-up portraits keep the US artwork.
+
+![The Outer Heaven stage with US retail patrons on the left and restored costumes on the right](media/outer-heaven.png)
+
+Add the switches you want before the source CUE in the build command below.
+
+| Switch | Change |
+| --- | --- |
+| `--database-dates` | Changes the dates in the in-game database to the Uncut chronology. |
+| `--bar-background` | Restores the PC Engine costumes in the Outer Heaven wide shot. |
+| `--lisa-art` | Restores Lisa’s Room 202 artwork after the fight. |
+
+The artwork switches require `xdelta3` and the Uncut v0.11.0-rc1 component package. The default registry is `../snatcher-uncut/build/m9/release-v1/profiles.json`. Use `--uncut-registry "/path/to/profiles.json"` to select another copy.
 
 ## Build the disc
 
@@ -14,25 +42,7 @@ python3 tools/patcher.py "/path/to/Snatcher.cue" "./Saturn build"
 
 The output contains `snatcher-saturn.bin`, `snatcher-saturn.cue` and `build-receipt.json`. Keep the BIN and CUE together. The receipt records your patch choices and output hashes.
 
-A clean build from the combined US BIN reproduced the tested BIN and CUE. The retail BIN SHA-256 is `53810d2dd8814b9545e145ade6e5e0bd4414a5635ea439a042eb0f66239ca2f9`.
-
-## Choose Uncut options
-
-The default build preserves US retail content. Add any combination of these switches before the source CUE.
-
-| Switch | Change |
-| --- | --- |
-| `--database-dates` | Restores the database chronology in the SP04 and SP05 text pools. |
-| `--bar-background` | Restores the PC Engine costumes in the Outer Heaven wide shot. The individual patron portraits keep their US art. |
-| `--lisa-art` | Restores Lisa’s Room 202 artwork after the fight. |
-
-The artwork switches require `xdelta3` and the Uncut v0.11.0-rc1 component package. The default registry is `../snatcher-uncut/build/m9/release-v1/profiles.json`. Use `--uncut-registry "/path/to/profiles.json"` to select another copy.
-
-A clean build with all three switches changed six of 912 Saturn disc files. Both restored pictures matched their expected hashes. Only two of 39 script text pools changed. All 20 audio tracks matched retail.
-
-Each switch also passed in a separate build. The date switch changed only two script modules. The bar switch changed the Outer Heaven artwork, its lighting map and the executable. The Lisa switch changed the apartment artwork and its transfer data. Each preserved all 20 playable audio tracks.
-
-## Play in Beetle Saturn
+## Controls and Beetle Saturn setup
 
 Configure your US/EU Saturn BIOS in the frontend’s system directory. Load the generated CUE with Beetle Saturn. Set port 1 to a control pad. Press Start or C for New Game. Press Start during the opening to skip to Act 1. Use Up and Down to highlight a command, C to confirm or advance dialogue, and B to return. In a shooting encounter, press A to draw. Hold a direction to aim or release the D-pad to aim at the center. Press C to fire.
 
@@ -54,7 +64,7 @@ For the physical gun test, connect the pad to port 1 and the Stunner to port 2 b
 
 ## Test coverage and known issues
 
-The recorded playthrough started with empty backup RAM and used zero emulator state loads across 993,212 frames. All 23 story checkpoints matched the earlier development route. All 14 additional whole-screen checks matched the current build. The final Junker logo matched the independently recorded ending.
+The 4:36:42 playthrough started with empty backup RAM and used zero emulator state loads across 993,212 frames. All 23 story checkpoints matched the earlier development route. All 14 additional whole-screen checks matched the current build. The final Junker logo matched the independently recorded ending.
 
 Beetle passed 50 pad and Stunner cases across 11 shooting encounters on the staged image. The emulated Stunner scored 64 hits in the first Act 3 corridor and 40 in the second. Off-screen shots missed. Holding the trigger fired once.
 
@@ -65,3 +75,11 @@ All 1,162 streamed voice cues matched the original disc across 81,283,392 decode
 The opening matched the US music in all 162 sample windows. Within a ten-frame timing window, six of 88 opening pictures and six of 114 credits pictures differed from their references. Five of the six credits pictures matched between 11 and 37 frames away. One still differed within 90 frames.
 
 [Verified playthrough hashes](playthrough-receipt.json) · [Recorded controller inputs](tools/routes/full-campaign.pad)
+
+### Build verification
+
+A clean build from the combined US BIN reproduced the tested BIN and CUE. The retail BIN SHA-256 is `53810d2dd8814b9545e145ade6e5e0bd4414a5635ea439a042eb0f66239ca2f9`.
+
+A clean build with all three switches changed six of 912 Saturn disc files. Both restored pictures matched their expected hashes. Only two of 39 script text pools changed. All 20 audio tracks matched retail.
+
+Each switch also passed in a separate build. The date switch changed only two script modules. The bar switch changed the Outer Heaven artwork, its lighting map and the executable. The Lisa switch changed the apartment artwork and its transfer data. Each preserved all 20 playable audio tracks.
