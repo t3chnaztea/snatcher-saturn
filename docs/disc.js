@@ -81,7 +81,7 @@ function makeDictionary(raw, manifest) {
 }
 
 // CD-ROM Mode 1 EDC and two interleaved Reed-Solomon parity codes.
-function encodeTrack(iso) {
+function encodeTrack(iso, onProgress) {
   if (iso.length % DATA_SECTOR) throw Error('Partial ISO sector.');
   const edcTable = new Uint32Array(256), forward = new Uint8Array(256), inverse = new Uint8Array(256);
   for (let i = 0; i < 256; i++) {
@@ -109,6 +109,7 @@ function encodeTrack(iso) {
   }
   const bcd = n => (Math.floor(n / 10) << 4) | (n % 10);
   for (let offset = 0, n = 0; offset < output.length; offset += RAW_SECTOR, n++) {
+    if (onProgress && n % 1024 === 0) onProgress(offset / output.length);
     output.fill(255, offset + 1, offset + 11);
     const address = n + 150;
     output[offset + 12] = bcd(Math.floor(address / 4500));
