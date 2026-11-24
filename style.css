@@ -1,0 +1,32 @@
+* {box-sizing:border-box}
+[hidden] {display:none!important}
+:root {color-scheme:dark;font-family:Inter,system-ui,sans-serif;background:#080c14;color:#edf5fb;line-height:1.5}
+body {margin:0}
+main {max-width:780px;margin:32px auto 56px;padding:0 24px}
+.banner {display:block;width:100%;height:auto;border:1px solid #273444}
+header {margin:28px 0 24px}
+h1,h2,legend {line-height:1.18;letter-spacing:-.035em}
+h1 {font-size:clamp(2rem,5vw,3rem);margin:0 0 10px}
+p {margin:8px 0 16px;color:#c5ceda}
+fieldset,section {margin:0 0 20px;padding:16px 20px 20px;border:1px solid #344352;background:#101822;border-radius:6px}
+legend {padding:0 7px;font-size:1.25rem;font-weight:700}
+.picker {position:relative;display:flex;flex-wrap:wrap;gap:.35em .75em;align-items:center;justify-content:center;min-height:84px;border:1px dashed #6b9eac;border-radius:4px;cursor:pointer;background:#13232e}
+.picker strong,a {color:#7ae3f0}.picker span,small,.hint,.intro {color:#bcc8d4}
+.picker input {position:absolute;inset:0;opacity:0;width:100%;cursor:pointer}
+.picker:focus-within,.picker.over,:focus-visible {outline:2px solid #8cf0ff;outline-offset:3px}
+.hint {font-size:.85rem;margin:10px 0 0;overflow-wrap:anywhere}
+.intro {margin:0 0 10px}
+.choice {display:flex;align-items:flex-start;gap:12px;padding:10px 0;cursor:pointer}
+.choice + .choice {border-top:1px solid #263442}
+.choice input {width:18px;height:18px;margin:3px 0;accent-color:#77e5ef}
+.choice strong,.choice small {display:block}.choice small {font-size:.88rem}
+.actions {display:flex;gap:10px;flex-wrap:wrap}
+button,.button {display:inline-block;background:#81e6ee;color:#0a1a20;border:1px solid #81e6ee;border-radius:4px;padding:11px 20px;font:inherit;font-weight:700;cursor:pointer;text-decoration:none}
+.secondary {background:transparent;color:#c8f1f4;border-color:#53737d}
+button:disabled {opacity:.55;cursor:wait}
+section {margin-top:16px}h2 {margin:0}
+progress {width:100%;accent-color:#81e6ee}
+#status {margin:0 0 8px}#status.error {color:#ffb1a6}
+details {margin-top:16px}pre {white-space:pre-wrap;overflow-wrap:anywhere;font-size:.8rem}
+footer {margin-top:28px;font-size:.9rem}
+@media(max-width:520px) {main{padding:0 14px;margin-top:14px}.picker{padding:14px;text-align:center}fieldset{padding:12px 14px}}
