@@ -1,24 +1,35 @@
 <p align="center">
-  <img src="media/neo-kobe.png" width="100%" alt="Snatcher for Sega Saturn beside the Neo Kobe skyline at night">
+  <img src="media/banner.png" width="100%" alt="Snatcher for Sega Saturn, an unofficial fan port: Sega CD edition, English voices, Stunner light gun, browser patcher. Not affiliated with Konami.">
 </p>
 
-# Snatcher for Sega Saturn
+# Why port Snatcher to a console that already had it?
 
-## Why port Snatcher to a console that already had it?
+Because the Saturn got a different *Snatcher*. Konami released it in Japan in 1996 with the Japanese PC Engine voice performances, redrawn artwork and rearranged music. [Sega’s Saturn release catalog](https://www.sega.jp/history/hard/segasaturn/software_l.html)
 
-Konami released *Snatcher* for the Saturn in Japan in 1996. That edition paired the Japanese PC Engine voice performances with redrawn artwork and rearranged music. [Sega’s Saturn release catalog](https://www.sega.jp/history/hard/segasaturn/software_l.html)
-
-This port is for people who want to play the *Sega CD* edition on a Saturn. When Gillian walks into JUNKER headquarters, you hear Mika greet him in English. You get the Sega CD artwork and soundtrack, and the extra conversations from its expanded third act. The port reads those performances, pictures and songs from your US Sega CD disc and plays them as a native Saturn game.
+This port puts the *Sega CD* edition on a Saturn. Gillian walks into JUNKER headquarters and Mika greets him in English. The artwork and soundtrack are the Sega CD’s. So are the extra conversations from its expanded third act. The port reads those performances, pictures and songs from your US Sega CD disc and plays them as a native Saturn game.
 
 [**Patch your US Sega CD disc in your browser →**](https://t3chnaztea.github.io/snatcher-saturn/)
 
-**All three acts completed in Beetle Saturn. Physical Saturn, SAROO and CRT Stunner tests are pending.**
+> [!NOTE]
+> **Status:** all three acts completed in Beetle Saturn. Physical Saturn, SAROO and CRT Stunner tests are pending.
 
 <p align="center">
   <a href="media/gameplay.mp4"><img src="media/gameplay.gif" width="512" alt="Mika greets Gillian, Gillian inspects his turbocycle, then fires at Insectors in the factory"></a>
 </p>
 
 *Beetle Saturn capture.* Mika at JUNKER headquarters, a parking lot investigation and the first factory shootout. [Watch the 20-second clip with sound](media/gameplay.mp4).
+
+## What you get
+
+- **The English cast.** All 1,162 streamed voice cues match the original disc.
+- **The Sega CD soundtrack.** All 20 audio tracks match retail.
+- **The Sega CD artwork and script**, including the expanded third act.
+- **Light gun shootouts.** Play with a control pad, or add a Stunner on port 2.
+- **Four save slots** in Saturn backup RAM.
+- **Three optional Uncut restorations**, chosen in the patcher.
+- **A patcher that runs in your browser.** Your disc files stay on your computer.
+
+[Patch your disc](#patch-your-disc) · [Controls](#controls-and-beetle-saturn-setup) · [SAROO](#play-on-saroo) · [Test coverage](#test-coverage-and-known-issues) · [Build from source](#build-verification)
 
 ## Patch your disc
 
@@ -44,9 +55,22 @@ These choices come from [Snatcher Uncut](https://github.com/t3chnaztea/snatcher-
 
 ## Controls and Beetle Saturn setup
 
-Configure your US/EU Saturn BIOS in the frontend’s system directory. Load the generated CUE with Beetle Saturn. Set port 1 to a control pad. Press Start or C for New Game. Press Start during the opening to skip to Act 1. Use Up and Down to highlight a command, C to confirm or advance dialogue, and B to return. In a shooting encounter, press A to draw. Hold a direction to aim or release the D-pad to aim at the center. Press C to fire.
+Configure your US/EU Saturn BIOS in the frontend’s system directory. Load the generated CUE with Beetle Saturn. Set port 1 to a control pad.
 
-For a light gun, keep the pad on port 1. Set port 2 to **Stunner**. Bind aim and trigger in your frontend. Pull the trigger to draw and fire. An off-screen shot counts as a miss. Use the port 1 pad again for dialogue.
+| Where | Button | Action |
+| --- | --- | --- |
+| Title screen | Start or C | New Game |
+| Opening | Start | Skip to Act 1 |
+| Investigation | Up / Down | Highlight a command |
+| Investigation | C | Confirm or advance dialogue |
+| Investigation | B | Return |
+| Shooting | A | Draw |
+| Shooting | D-pad | Hold a direction to aim. Release to aim at the center. |
+| Shooting | C | Fire |
+
+### Light gun
+
+Keep the pad on port 1. Set port 2 to **Stunner**. Bind aim and trigger in your frontend. Pull the trigger to draw and fire. An off-screen shot counts as a miss. Use the port 1 pad again for dialogue.
 
 ## Play on SAROO
 
@@ -56,25 +80,49 @@ On a working SAROO card, create `SAROO/ISO/Snatcher Saturn`. Copy both generated
 shasum -a 256 snatcher-saturn.bin snatcher-saturn.cue
 ```
 
+### Smoke test
+
+1. Select the game in the SAROO loader.
+2. Start New Game. Listen for the Act 1 announcement and advance Mika’s greeting.
+3. At the parking lot, inspect the turbocycle body.
+4. Choose **Use Metal Gear → Save** and wait for confirmation.
+5. Reset the console. Select **Continue** and load that slot.
+6. Verify the parking lot returns and the second inspection skips the manufacturer line.
+
+### Physical gun test
+
 Build the standalone Stunner Probe with `bash tools/build_stunner_probe.sh`.
 
-Select the game in the SAROO loader. For a smoke test, start New Game, listen for the Act 1 announcement and advance Mika’s greeting. At the parking lot, inspect the turbocycle body. Choose **Use Metal Gear → Save** and wait for confirmation. Reset the console. Select **Continue** and load that slot. Verify the parking lot returns and the second inspection skips the manufacturer line.
-
-For the physical gun test, connect the pad to port 1 and the Stunner to port 2 before boot. Use a compatible CRT. Open **Stunner Probe** from SAROO. Shoot each of the nine white dots. Each intended field should turn green. Hold the trigger on one dot. The marker below the grid should move once. Aim away from the screen and fire. The highlight should clear and the marker should turn red. In the game, finish a shooting encounter and advance dialogue with the pad. Record the gun model, CRT model, console region, SAROO firmware and both disc hashes with the result.
+1. Connect the pad to port 1 and the Stunner to port 2 before boot. Use a compatible CRT.
+2. Open **Stunner Probe** from SAROO.
+3. Shoot each of the nine white dots. Each intended field should turn green.
+4. Hold the trigger on one dot. The marker below the grid should move once.
+5. Aim away from the screen and fire. The highlight should clear and the marker should turn red.
+6. In the game, finish a shooting encounter and advance dialogue with the pad.
+7. Record the gun model, CRT model, console region, SAROO firmware and both disc hashes with the result.
 
 ## Test coverage and known issues
 
-Desktop Chrome produced verified BIN and CUE downloads from the public patcher for all eight restoration combinations. Tests included combined and split dumps, with both stored and omitted audio pregaps.
+| Result | What was tested |
+| --- | --- |
+| 4:36:42 | Full playthrough from empty backup RAM, 993,212 frames, zero emulator state loads |
+| 23 of 23 | Story checkpoints matched the earlier development route |
+| 1,162 of 1,162 | Streamed voice cues matched the original disc |
+| 50 of 50 | Pad and Stunner cases passed across 11 shooting encounters |
+| 8 of 8 | Restoration combinations produced verified downloads in desktop Chrome |
+| 12 of 202 | Opening and credits pictures differed from their references. This is the known issue. |
 
-The 4:36:42 playthrough started with empty backup RAM and used zero emulator state loads across 993,212 frames. All 23 story checkpoints matched the earlier development route. All 14 additional whole-screen checks matched the current build. The final Junker logo matched the independently recorded ending.
+**Patcher.** Desktop Chrome produced verified BIN and CUE downloads from the public patcher for all eight restoration combinations. Tests included combined and split dumps, with both stored and omitted audio pregaps.
 
-Beetle passed 50 pad and Stunner cases across 11 shooting encounters on the staged image. The emulated Stunner scored 64 hits in the first Act 3 corridor and 40 in the second. Off-screen shots missed. Holding the trigger fired once.
+**Playthrough.** The 4:36:42 playthrough started with empty backup RAM and used zero emulator state loads across 993,212 frames. All 23 story checkpoints matched the earlier development route. All 14 additional whole-screen checks matched the current build. The final Junker logo matched the independently recorded ending.
 
-Beetle restored the parking lot investigation after a reset and a separate cold boot. All four save slots loaded. Declining an overwrite preserved every backup byte. An Act 2 headquarters save also survived a reset.
+**Shooting.** Beetle passed 50 pad and Stunner cases across 11 shooting encounters on the staged image. The emulated Stunner scored 64 hits in the first Act 3 corridor and 40 in the second. Off-screen shots missed. Holding the trigger fired once.
 
-All 1,162 streamed voice cues matched the original disc across 81,283,392 decoded samples. The full playthrough passed all 210 staff-roll music checks.
+**Saves.** Beetle restored the parking lot investigation after a reset and a separate cold boot. All four save slots loaded. Declining an overwrite preserved every backup byte. An Act 2 headquarters save also survived a reset.
 
-The opening matched the US music in all 162 sample windows. Within a ten-frame timing window, six of 88 opening pictures and six of 114 credits pictures differed from their references. Five of the six credits pictures matched between 11 and 37 frames away. One still differed within 90 frames.
+**Audio.** All 1,162 streamed voice cues matched the original disc across 81,283,392 decoded samples. The full playthrough passed all 210 staff-roll music checks.
+
+**Known issue: opening and credits pictures.** The opening matched the US music in all 162 sample windows. Within a ten-frame timing window, six of 88 opening pictures and six of 114 credits pictures differed from their references. Five of the six credits pictures matched between 11 and 37 frames away. One still differed within 90 frames.
 
 [Verified playthrough hashes](playthrough-receipt.json) · [Recorded controller inputs](tools/routes/full-campaign.pad)
 
