@@ -1,0 +1,12 @@
+# Continue the act1-to-cockpit.pad route. Frames count from cold boot.
+# Select Factory Ruins at the first destination menu.
+74900 74902 20
+75200 75202 800
+# Answer Metal Gear after landing. Exit at the factory.
+79200 79202 800
+79500 79502 800
+# Read Metal Gear's briefing. Inspect the building.
+80600 80602 800
+80900 80902 20
+81100 81102 800
+81400 81402 800

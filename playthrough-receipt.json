@@ -1,0 +1,23 @@
+{
+  "frames": 993212,
+  "fps": 59.826503140891,
+  "cold_boot": true,
+  "state_loads": 0,
+  "starting_backup_sha256": null,
+  "core_sha256": "ca082769226aaeea3a258309dfa6f4ee8aaf37419dee5d57f947ce0f21f11a3e",
+  "bin_sha256": "53810d2dd8814b9545e145ade6e5e0bd4414a5635ea439a042eb0f66239ca2f9",
+  "cue_sha256": "f6dade1c68ce4883a4d2081341fe12979554b81a33f838f3633f9455d911964d",
+  "input_sha256": "16c1b57f15544a29e71dae4c0941c89a0b916f2a7b6e8503102331c3a991582f",
+  "movie_sha256": "314e79556c09a2b65e40b87b623ade2b7717ac5843f016a0809f697f64fd3575",
+  "streams": [
+    {
+      "codec_type": "video",
+      "nb_read_packets": "993212"
+    },
+    {
+      "codec_type": "audio",
+      "sample_rate": "44100",
+      "nb_read_packets": "178744"
+    }
+  ]
+}
