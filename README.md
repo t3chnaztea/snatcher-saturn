@@ -4,7 +4,11 @@
 
 # Snatcher for Sega Saturn
 
-Play the English Sega CD version of *Snatcher* as a native Saturn game, with the original voice cast, music and expanded third act. Build it from your US disc. Use a Saturn pad to investigate Neo Kobe and a pad or Stunner for the shooting encounters.
+## Why port Snatcher to a console that already had it?
+
+Konami released *Snatcher* for the Saturn in Japan in 1996. That edition paired the Japanese PC Engine voice performances with redrawn artwork and rearranged music. [Sega’s Saturn release catalog](https://www.sega.jp/history/hard/segasaturn/software_l.html)
+
+This port is for people who want to play the *Sega CD* edition on a Saturn. When Gillian walks into JUNKER headquarters, you hear Mika greet him in English. You get the Sega CD artwork and soundtrack, and the extra conversations from its expanded third act. The port reads those performances, pictures and songs from your US Sega CD disc and plays them as a native Saturn game.
 
 **All three acts completed in Beetle Saturn. Physical Saturn, SAROO and CRT Stunner tests are pending.**
 
